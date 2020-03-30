@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- DependencyInjectionExtension -->
+        <service id="klipper_default_value.extension" class="Klipper\Component\DefaultValue\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
+            <property name="container" type="service" id="service_container" />
+            <argument type="collection" />
+            <argument type="collection" />
+        </service>
+
+        <!-- ObjectFactory -->
+        <service id="klipper_default_value.factory" class="Klipper\Component\DefaultValue\ObjectFactory" public="true">
+            <argument type="service" id="klipper_default_value.registry" />
+            <argument type="service" id="klipper_default_value.resolved_type_factory" />
+        </service>
+
+        <!-- BlockRegistry -->
+        <service id="klipper_default_value.registry" class="Klipper\Component\DefaultValue\ObjectRegistry" public="true">
+            <argument type="collection">
+                <!--
+                We don't need to be able to add more extensions.
+                 * more types can be registered with the klipper_default_value.type tag
+                 * more type extensions can be registered with the klipper_default_value.type_extension tag
+                -->
+                <argument type="service" id="klipper_default_value.extension" />
+            </argument>
+            <argument type="service" id="klipper_default_value.resolved_type_factory" />
+        </service>
+
+        <!-- ResolvedBlockTypeFactory -->
+        <service id="klipper_default_value.resolved_type_factory" class="Klipper\Component\DefaultValue\ResolvedObjectTypeFactory" />
+
+        <!-- CoreExtension -->
+        <service id="klipper_default_value.type.default" class="Klipper\Component\DefaultValue\Extension\Core\Type\DefaultType" public="true">
+            <tag name="klipper_default_value.type" class="default" />
+        </service>
+    </services>
+</container>
