@@ -49,10 +49,9 @@ class DefaultValuePass implements CompilerPassInterface
     /**
      * Find service tags.
      *
-     * @param ContainerBuilder $container
-     * @param string           $tagName
-     * @param int              $argumentPosition
-     * @param bool             $ext
+     * @param string $tagName
+     * @param int    $argumentPosition
+     * @param bool   $ext
      *
      * @throws InvalidConfigurationException
      */

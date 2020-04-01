@@ -31,17 +31,17 @@ final class KlipperDefaultValueExtensionTest extends TestCase
     public function testCompileContainerWithExtension(): void
     {
         $container = $this->getContainer();
-        $this->assertTrue($container->hasDefinition('klipper_default_value.extension'));
-        $this->assertTrue($container->hasDefinition('klipper_default_value.registry'));
-        $this->assertTrue($container->hasDefinition('klipper_default_value.resolved_type_factory'));
+        static::assertTrue($container->hasDefinition('klipper_default_value.extension'));
+        static::assertTrue($container->hasDefinition('klipper_default_value.registry'));
+        static::assertTrue($container->hasDefinition('klipper_default_value.resolved_type_factory'));
     }
 
     public function testCompileContainerWithoutExtension(): void
     {
         $container = $this->getContainer(true);
-        $this->assertFalse($container->hasDefinition('klipper_default_value.extension'));
-        $this->assertFalse($container->hasDefinition('klipper_default_value.registry'));
-        $this->assertFalse($container->hasDefinition('klipper_default_value.resolved_type_factory'));
+        static::assertFalse($container->hasDefinition('klipper_default_value.extension'));
+        static::assertFalse($container->hasDefinition('klipper_default_value.registry'));
+        static::assertFalse($container->hasDefinition('klipper_default_value.resolved_type_factory'));
     }
 
     public function testLoadExtensionWithoutClassname(): void
@@ -55,7 +55,7 @@ final class KlipperDefaultValueExtensionTest extends TestCase
     public function testLoadDefaultExtensionWithClassname(): void
     {
         $container = $this->getContainer(false, 'container_extension');
-        $this->assertTrue($container->hasDefinition('test.klipper_default_value.type.default'));
+        static::assertTrue($container->hasDefinition('test.klipper_default_value.type.default'));
     }
 
     public function testLoadDefaultExtensionWithoutClassname(): void
@@ -69,13 +69,13 @@ final class KlipperDefaultValueExtensionTest extends TestCase
     public function testLoadDefaultTypeWithSimpleType(): void
     {
         $container = $this->getContainer(false, 'container_custom_simple');
-        $this->assertTrue($container->hasDefinition('test.klipper_default_value.type.simple'));
+        static::assertTrue($container->hasDefinition('test.klipper_default_value.type.simple'));
     }
 
     public function testLoadDefaultTypeWithCustomConstructor(): void
     {
         $container = $this->getContainer(false, 'container_custom');
-        $this->assertTrue($container->hasDefinition('test.klipper_default_value.type.custom'));
+        static::assertTrue($container->hasDefinition('test.klipper_default_value.type.custom'));
     }
 
     public function testLoadDefaultTypeWithCustomConstructorAndResolveTarget(): void
@@ -83,7 +83,7 @@ final class KlipperDefaultValueExtensionTest extends TestCase
         $container = $this->getContainer(false, 'container_custom_resolve_target', [
             'Foo\BarInterface' => 'Foo\Bar',
         ]);
-        $this->assertTrue($container->hasDefinition('test.klipper_default_value.type.custom'));
+        static::assertTrue($container->hasDefinition('test.klipper_default_value.type.custom'));
     }
 
     public function testLoadDefaultTypeWithCustomConstructorWithoutClassname(): void
