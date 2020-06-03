@@ -20,18 +20,9 @@ use Klipper\Component\DefaultValue\AbstractSimpleType;
  */
 class CustomType extends AbstractSimpleType
 {
-    /**
-     * @var bool
-     */
-    protected $foo;
+    protected bool $foo;
 
-    /**
-     * Constructor.
-     *
-     * @param string $class The class name
-     * @param bool   $foo   The foo
-     */
-    public function __construct($class, $foo)
+    public function __construct(string $class, bool $foo)
     {
         parent::__construct($class);
 

@@ -100,10 +100,8 @@ final class KlipperDefaultValueExtensionTest extends TestCase
      * @param bool   $empty          Compile container without extension
      * @param string $services       The services definition
      * @param array  $resolveTargets The doctrine resolve targets
-     *
-     * @return ContainerBuilder
      */
-    protected function getContainer($empty = false, $services = null, array $resolveTargets = [])
+    protected function getContainer(bool $empty = false, ?string $services = null, array $resolveTargets = []): ContainerBuilder
     {
         $container = new ContainerBuilder();
         $bundle = new KlipperDefaultValueBundle();

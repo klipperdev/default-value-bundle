@@ -27,14 +27,8 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class DefaultValuePass implements CompilerPassInterface
 {
-    /**
-     * @var null|array
-     */
-    private $resolveTargets;
+    private ?array $resolveTargets = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('klipper_default_value.extension')) {
@@ -49,13 +43,9 @@ class DefaultValuePass implements CompilerPassInterface
     /**
      * Find service tags.
      *
-     * @param string $tagName
-     * @param int    $argumentPosition
-     * @param bool   $ext
-     *
      * @throws InvalidConfigurationException
      */
-    protected function findTags(ContainerBuilder $container, $tagName, $argumentPosition, $ext = false): void
+    protected function findTags(ContainerBuilder $container, string $tagName, int $argumentPosition, bool $ext = false): void
     {
         $services = [];
 
@@ -82,10 +72,8 @@ class DefaultValuePass implements CompilerPassInterface
      *
      * @param ContainerBuilder $container The container
      * @param string           $classname The class name or the parameter name of classname
-     *
-     * @return string
      */
-    protected function getRealClassName(ContainerBuilder $container, $classname)
+    protected function getRealClassName(ContainerBuilder $container, string $classname): string
     {
         return 0 === strpos($classname, '%') ? $container->getParameter(trim($classname, '%')) : $classname;
     }
@@ -93,15 +81,9 @@ class DefaultValuePass implements CompilerPassInterface
     /**
      * Get the class name of default value type.
      *
-     * @param ContainerBuilder $container The container service
-     * @param string           $serviceId The service id of default value type
-     * @param string           $tagName   The tag name
-     *
      * @throws InvalidConfigurationException When the service is not an instance of Klipper\Component\DefaultValue\ObjectTypeInterface
-     *
-     * @return string
      */
-    protected function getClassName(ContainerBuilder $container, $serviceId, $tagName)
+    protected function getClassName(ContainerBuilder $container, string $serviceId, string $tagName): string
     {
         $type = $container->getDefinition($serviceId);
         $interfaces = class_implements($type->getClass());
@@ -125,7 +107,7 @@ class DefaultValuePass implements CompilerPassInterface
      *
      * @return ObjectTypeInterface
      */
-    protected function buildInstanceType(Definition $type, $serviceId, $tagName)
+    protected function buildInstanceType(Definition $type, string $serviceId, string $tagName): object
     {
         $parents = class_parents($type->getClass());
         $args = $type->getArguments();
@@ -144,10 +126,8 @@ class DefaultValuePass implements CompilerPassInterface
      *
      * @param ContainerBuilder $container The container
      * @param string           $class     The class name
-     *
-     * @return string
      */
-    private function findResolveTarget(ContainerBuilder $container, $class)
+    private function findResolveTarget(ContainerBuilder $container, string $class): string
     {
         $resolveTargets = $this->getResolveTargets($container);
 
@@ -192,7 +172,7 @@ class DefaultValuePass implements CompilerPassInterface
      * @param string           $serviceId The service id of default value type
      * @param string           $class     The class name
      */
-    private function replaceResolveTargetClass(ContainerBuilder $container, $tagName, $serviceId, $class): void
+    private function replaceResolveTargetClass(ContainerBuilder $container, string $tagName, string $serviceId, string $class): void
     {
         $def = $container->getDefinition($serviceId);
 
@@ -207,7 +187,7 @@ class DefaultValuePass implements CompilerPassInterface
      * @param string     $tagName    The tag name
      * @param string     $class      The class name
      */
-    private function replaceClassInTags(Definition $definition, $tagName, $class): void
+    private function replaceClassInTags(Definition $definition, string $tagName, string $class): void
     {
         $tags = $definition->getTag($tagName);
 
@@ -229,7 +209,7 @@ class DefaultValuePass implements CompilerPassInterface
      * @param Definition       $definition The service definition of default value
      * @param string           $class      The class name
      */
-    private function replaceClassInArguments(ContainerBuilder $container, Definition $definition, $class): void
+    private function replaceClassInArguments(ContainerBuilder $container, Definition $definition, string $class): void
     {
         $targets = $this->getResolveTargets($container);
         $args = $definition->getArguments();
